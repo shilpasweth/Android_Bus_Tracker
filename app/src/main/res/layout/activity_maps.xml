@@ -11,10 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="#536DFE"
+        android:fontFamily="sans-serif-condensed"
         android:onClick="busFocus"
         android:padding="8dp"
         android:text="Find Bus"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"

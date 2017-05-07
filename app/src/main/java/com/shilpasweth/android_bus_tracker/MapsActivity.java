@@ -1,9 +1,11 @@
 package com.shilpasweth.android_bus_tracker;
 
+import android.app.ProgressDialog;
 import android.os.CountDownTimer;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,12 +38,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     String url = "https://bustracker-nitt.000webhostapp.com/poll.php";
 
-    int MY_PERMISSIONS_REQUEST_INTERNET=0;
+    int first_time=0;
 
     static int busno=1;
 
+    ProgressDialog pDialog=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        first_time=0;
+
         fetchBuses();
 
         super.onCreate(savedInstanceState);
@@ -103,6 +109,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      */
     public void fetchBuses(){
+        if(first_time==0) {
+            pDialog = new ProgressDialog(this);
+            pDialog.setMessage("Loading...");
+            pDialog.setCancelable(false);
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+        }
         StringRequest jsObjRequest = new StringRequest
                 (Request.Method.GET, url, new Response.Listener<String>() {
 
@@ -137,11 +150,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                             onMapRefresh();
+
+                                pDialog.dismiss();
+                                first_time++;
+
                             // Toast.makeText(MapsActivity.this,"Length "+mBuses.size(),Toast.LENGTH_LONG).show();
                             //  Toast.makeText(MapsActivity.this,c.toString(),Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             //Toast.makeText(MapsActivity.this,"dataJsonArr fail",Toast.LENGTH_LONG).show();
                             e.printStackTrace();
+
+                                pDialog.dismiss();
+                                first_time++;
+
                         }
 
                         //Toast.makeText(MapsActivity.this,dataJsonArr.length(),Toast.LENGTH_LONG).show();
@@ -151,6 +172,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
+                        if(first_time==0) {
+
+                            Toast.makeText(MapsActivity.this, "Please check the Internet connection", Toast.LENGTH_LONG).show();
+                        }
+                        pDialog.dismiss();
+                        first_time++;
                         //Toast.makeText(MapsActivity.this,"Error",Toast.LENGTH_LONG).show();
 
                     }
