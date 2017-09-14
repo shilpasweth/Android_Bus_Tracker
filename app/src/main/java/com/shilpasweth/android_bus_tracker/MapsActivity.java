@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        final CountDownTimer mapRefresh = new CountDownTimer(5000, 1000) {
+        final CountDownTimer mapRefresh = new CountDownTimer(1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -117,8 +117,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             busno = (busno + 1) % mBuses.size();
             LatLng sydney = new LatLng(mBuses.get(busno).getLatitude(), mBuses.get(busno).getLongitude());
 
-            // mMap.setMinZoomPreference(18.0f);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 18.0f));
+            mMap.setMinZoomPreference(16.0f);//upper bound
+            mMap.setMaxZoomPreference(18.0f);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17.0f));
         }
     }
 
@@ -139,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             pDialog = new ProgressDialog(this);
             pDialog.setMessage("Loading...");
             pDialog.setCancelable(false);
-            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.setCanceledOnTouchOutside(true);
             pDialog.show();
         }
         StringRequest jsObjRequest = new StringRequest
@@ -201,7 +202,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
                         if (first_time == 0) {
-
                             Toast.makeText(MapsActivity.this, "Please check the Internet connection", Toast.LENGTH_LONG).show();
                         }
                         pDialog.dismiss();
@@ -233,7 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng bus = new LatLng(mBuses.get(i).getLatitude(), mBuses.get(i).getLongitude());
             if(i==1)
                 sydney=bus;
-            if(mBuses.get(i).getVehicleType().equalsIgnoreCase("generalBus")){
+            if(mBuses.get(i).getVehicleType().equalsIgnoreCase("busNormal")){
                 general++;
                 mMap.addMarker(new MarkerOptions().position(bus).title("General Bus").icon(BitmapDescriptorFactory.fromResource(R.drawable.bus_marker_general)));
             }
@@ -328,6 +328,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Toast.makeText(MapsActivity.this,"Out Loop",Toast.LENGTH_LONG).show();
 
         //mMap.setMinZoomPreference(15.0f);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,18.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,17.0f));
     }
 }
