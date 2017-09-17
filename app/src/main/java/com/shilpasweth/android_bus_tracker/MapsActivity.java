@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     int first_time = 0;
 
+    int wait=0;
 
 
     static int busno = 1;
@@ -62,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MainActivity","Entered onCreate()");
         first_time = 0;
 
         fetchBuses();
@@ -78,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapsActivity.this);
 
 
-
+        //Timer to update bus positions
         final CountDownTimer mapRefresh = new CountDownTimer(1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -87,16 +90,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             public void onFinish() {
                 //mTextField.setText("done!");
-
-                fetchBuses();
-                onMapRefresh();
-                this.start();
+                Log.d("MainActivity","Entered CountDownTimer-onFinish()");
+                if(wait==0) {
+                    wait = 1;
+                    fetchBuses();
+                    onMapRefresh();
+                    wait = 0;
+                    this.start();
+                }
+                Log.d("MainActivity","Exited CountDownTimer-onFinish()");
             }
         };
 
 
 
         mapRefresh.start();
+        Log.d("MainActivity","Exited onCreate()");
 
     }
 
@@ -106,13 +115,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapsPresenter.onStart(buses);
     }
 
+    //MYP stuff not done yet
     @Override
     public void updateBuses(List<BusInfo> buses) {
+        Log.d("MainActivity","Entered updateBuses()");
         mBuses = buses;
+        Log.d("MainActivity","Exited updateBuses()");
 
     }
 
+    //Move focus to a bus
     public void busFocus(View view) {
+        Log.d("MainActivity","Entered busFocus()");
         if (mBuses.size() != 0) {
             busno = (busno + 1) % mBuses.size();
             LatLng sydney = new LatLng(mBuses.get(busno).getLatitude(), mBuses.get(busno).getLongitude());
@@ -121,6 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMaxZoomPreference(18.0f);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17.0f));
         }
+        Log.d("MainActivity","Exited busFocus()");
     }
 
 
@@ -136,6 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      */
     public void fetchBuses() {
+        Log.d("MainActivity","Entered fetchBuses()");
         if (first_time == 0) {
             pDialog = new ProgressDialog(this);
             pDialog.setMessage("Loading...");
@@ -148,10 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onResponse(String response) {
-                        // mTxtDisplay.setText("Response: " + response.toString());
-                        // Toast.makeText(MapsActivity.this,response,Toast.LENGTH_LONG).show();
 
-                        // Toast.makeText(MapsActivity.this,dataJsonObj.toString(),Toast.LENGTH_LONG).show();
                         JSONArray dataJsonArr = null;
                         try {
                             dataJsonArr = new JSONArray(response);
@@ -168,10 +181,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 bus.putVehicleId(c.getString("vehicleId"));
                                 bus.putVehicleType(c.getString("vehicleType"));
                                 bus.putVehicleLicense(c.getString("licenseNumber"));
-                                bus.putLatitude(Float.valueOf(c.getString("lat")));
-                                bus.putLongitude(Float.valueOf(c.getString("lon")));
+                                bus.putLatitude(Double.valueOf(c.getString("lat")));
+                                bus.putLongitude(Double.valueOf(c.getString("lon")));
                                 bus.putLastUpdated(c.getString("lastUpdatedAt"));
-
+                                Log.d("MainActivity","Entered fetchBuses()-lastUpdateTime "+bus.getLastUpdated() +" "+bus.getLatitude()+", "+bus.getLongitude());
                                 mBuses.add(bus);
 
 
@@ -212,16 +225,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
 
         Volley.newRequestQueue(this).add(jsObjRequest);
+        Log.d("MainActivity","Exited fetchBuses()");
     }
 
     public void onMapRefresh() {
-
-        // Add a marker in Sydney and move the camera
-        //while(mBuses.size()==0){}
+        Log.d("MainActivity","Entered onMapRefresh()");
         mMap.clear();
         LatLng sydney = new LatLng(10.761, 78.816);
-        //Toast.makeText(MapsActivity.this,"Out Loop",Toast.LENGTH_LONG).show();
-
 
         int general=0;
         int boy=0;
@@ -229,7 +239,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (int i = 0; i < mBuses.size(); i++) {
             //Toast.makeText(MapsActivity.this,"In Loop",Toast.LENGTH_LONG).show();
-
+            Log.d("MainActivity","Entered onMapRefresh()-lastUpdatedTime "+mBuses.get(i).getLastUpdated()+" "+mBuses.get(i).getLatitude()+", "+mBuses.get(i).getLongitude());
             LatLng bus = new LatLng(mBuses.get(i).getLatitude(), mBuses.get(i).getLongitude());
             if(i==1)
                 sydney=bus;
@@ -253,21 +263,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         gen_txt.setText(String.valueOf(general));
         boy_txt.setText(""+boy);
         girl_txt.setText(""+girl);
-        //Toast.makeText(MapsActivity.this,String.valueOf(mBuses.size()),Toast.LENGTH_SHORT).show();
-        general=0;
-        boy=0;
-        girl=0;
-       // mMap.setMinZoomPreference(18.0f);
-       //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-
+        Log.d("MainActivity","Exited onMapRefresh()");
     }
 
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("MainActivity","Entered onMapReady()");
         mMap = googleMap;
 
         int MY_PERMISSIONS_REQUEST = 0;
@@ -281,42 +284,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-            //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker").snippet("Snippet"));
-
-            /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            //mMap.setMyLocationEnabled(true);
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                LocationListener locationListener = new LocationListener() {
-                    public void onLocationChanged(Location location) {
-                        // Called when a new location is found by the network location provider.
-                        // makeUseOfNewLocation(location);
-                    }
-
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                    }
-
-                    public void onProviderEnabled(String provider) {
-                    }
-
-                    public void onProviderDisabled(String provider) {
-                    }
-                };
-            // Creating a criteria object to retrieve provider
-            //Criteria criteria = new Criteria();
-            // Getting the name of the best provider
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            Location  my_location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if(my_location!=null) {
-                Toast.makeText(MapsActivity.this,"Location not Null",Toast.LENGTH_LONG).show();
-                LatLng me = new LatLng(my_location.getLatitude(), my_location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(me).title("User Position"));//.icon(BitmapDescriptorFactory.fromResource(R.drawable.bus_marker_girls)));
-            }
-            else{
-                Toast.makeText(MapsActivity.this,"Location is Null",Toast.LENGTH_LONG).show();
-            }
-        }*/
 
         } else {
             Toast.makeText(MapsActivity.this, "Permission not given", Toast.LENGTH_LONG).show();// Show rationale and request permission.
@@ -329,5 +296,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //mMap.setMinZoomPreference(15.0f);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,17.0f));
+        Log.d("MainActivity","Exited onMapReady()");
     }
 }

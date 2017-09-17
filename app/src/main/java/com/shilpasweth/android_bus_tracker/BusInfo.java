@@ -37,14 +37,12 @@ public class BusInfo {
 
     public void putVehicleLicense(String v_license){vehicle_license=v_license;}
 
-    public void putLatitude(float lat){
-        BigDecimal roundfinalPrice = new BigDecimal(lat).setScale(3, BigDecimal.ROUND_HALF_UP);
-        latitude=roundfinalPrice.doubleValue();
+    public void putLatitude(double lat){
+        latitude=lat;
     }
 
-    public void putLongitude(float lon){
-        BigDecimal roundfinalPrice = new BigDecimal(lon).setScale(3, BigDecimal.ROUND_HALF_UP);
-        longitude=roundfinalPrice.doubleValue();
+    public void putLongitude(double lon){
+        longitude=lon;
     }
 
     public void putLastUpdated(String last_up){last_updated=last_up;}
