@@ -1,0 +1,116 @@
+[{
+      "name":"Opal",
+      "latitude":10.757498,
+      "longitude":78.822075
+    },
+  {
+    "name":"Agate",
+    "latitude":10.762140,
+    "longitude":78.813394
+  },
+  {
+    "name":"Coral",
+    "latitude":10.762128,
+    "longitude":78.815489
+  },
+  {
+    "name":"Diamond",
+    "latitude":10.763896,
+    "longitude":78.814350
+  },
+  {
+    "name":"Beryl",
+    "latitude":10.762445,
+    "longitude":78.817422
+  },
+  {
+    "name":"Jade",
+    "latitude":10.763623,
+    "longitude":78.818234
+  },
+  {
+    "name":"Garnet A",
+    "latitude":10.762624,
+    "longitude":78.811541
+  },
+  {
+    "name":"Garnet B",
+    "latitude":10.763314,
+    "longitude":78.811654
+  },
+  {
+    "name":"Garnet C",
+    "latitude":10.763614,
+    "longitude":78.812331
+  },
+  {
+    "name":"Zircon A",
+    "latitude":10.765666,
+    "longitude":78.817560
+  },
+  {
+    "name":"Zircon B",
+    "latitude":10.766783,
+    "longitude":78.817657
+  },
+  {
+    "name":"Zircon C",
+    "latitude":10.766585,
+    "longitude":78.816485
+  },
+  {
+    "name":"Amber A",
+    "latitude":10.767454,
+    "longitude":78.813572
+  },
+  {
+    "name":"Amber B",
+    "latitude":10.768181,
+    "longitude":78.813647
+  },
+  {
+    "name":"Emerald",
+    "latitude":10.763643,
+    "longitude":78.816675
+  },
+  {
+    "name":"Lapis",
+    "latitude":10.764441,
+    "longitude":78.813847
+  },
+  {
+    "name":"Pearl",
+    "latitude":10.764469,
+    "longitude":78.815434
+  },
+  {
+    "name":"Ruby",
+    "latitude":10.764672,
+    "longitude":78.817923
+  },
+  {
+    "name":"Sapphire",
+    "latitude":10.765536,
+    "longitude":78.814345
+  },
+  {
+    "name":"Topaz",
+    "latitude":10.765567,
+    "longitude":78.816271
+  },
+  {
+    "name":"Aquamarine A",
+    "latitude":10.767901,
+    "longitude":78.818401
+  },
+  {
+    "name":"Aquamarine B",
+    "latitude":10.768470,
+    "longitude":78.818433
+  },
+  {
+    "name":"Jasper",
+    "latitude":10.769147,
+    "longitude":78.818382
+  }
+]

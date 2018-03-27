@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="hostel_locations">
+        <item>
+        OPAL,10.757498,78.822075
+        </item>
+        <item>
+            AGATE,10.762140,78.813394
+        </item>
+        <item>
+            CORAL,10.762128,78.815489
+        </item>
+        <item>
+            DIAMOND,10.763896,78.814350
+        </item>
+        <item>
+            BERYL,10.762445,78.817422
+        </item>
+        <item>
+            JADE,10.763623,78.818234
+        </item>
+        <item>
+            GARNET_A,10.762624,78.811541
+        </item>
+        <item>
+            GARNET_B,10.763314,78.811654
+        </item>
+        <item>
+            GARNET_C,10.763614,78.812331
+        </item>
+        <item>
+            ZIRCON_A,10.765666,78.817560
+        </item>
+        <item>
+            ZIRCON_B,10.766783,78.817657
+        </item>
+        <item>
+            ZIRCON_C,10.766585,78.816485
+        </item>
+        <item>
+            AMBER_A,10.767454,78.813572
+        </item>
+        <item>
+            AMBER_B,10.768181,78.813647
+        </item>
+        <item>
+            EMERALD,10.763643,78.816675
+        </item>
+        <item>
+            LAPIS,10.764441,78.813847
+        </item>
+        <item>
+            PEARL,10.764469,78.815434
+        </item>
+        <item>
+            RUBY,10.764672,78.817923
+        </item>
+        <item>
+            SAPPHIRE,10.765536,78.814345
+        </item>
+        <item>
+            TOPAZ,10.765567,78.816271
+        </item>
+        <item>
+            AQUAMARINE_A,10.767901,78.818401
+        </item>
+        <item>
+            AQUAMARINE_B,10.768470,78.818433
+        </item>
+        <item>
+            JASPER,10.769147,78.818382
+        </item>
+
+    </string-array>
+
+    <string-array name="hostel_names">
+        <item>
+        None
+        </item>
+        <item>
+        OPAL
+        </item>
+        <item>
+            AGATE
+        </item>
+        <item>
+            CORAL
+        </item>
+        <item>
+            DIAMOND
+        </item>
+        <item>
+            BERYL
+        </item>
+        <item>
+            JADE
+        </item>
+        <item>
+            GARNET A
+        </item>
+        <item>
+            GARNET B
+        </item>
+        <item>
+            GARNET C
+        </item>
+        <item>
+            ZIRCON A
+        </item>
+        <item>
+            ZIRCON B
+        </item>
+        <item>
+            ZIRCON C
+        </item>
+        <item>
+            AMBER A
+        </item>
+        <item>
+            AMBER B
+        </item>
+        <item>
+            EMERALD
+        </item>
+        <item>
+            LAPIS
+        </item>
+        <item>
+            PEARL
+        </item>
+        <item>
+            RUBY
+        </item>
+        <item>
+            SAPPHIRE
+        </item>
+        <item>
+            TOPAZ
+        </item>
+        <item>
+            AQUAMARINE A
+        </item>
+        <item>
+            AQUAMARINE B
+        </item>
+        <item>
+            JASPER
+        </item>
+
+    </string-array>
+
+
+</resources>

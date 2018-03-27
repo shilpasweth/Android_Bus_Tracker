@@ -1,0 +1,126 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Enable Notifications"
+        android:key="notif_settings">
+
+        <ListPreference
+            android:defaultValue="None"
+            android:entries="@array/hostel_names"
+            android:entryValues="@array/hostel_names"
+            android:key="hostel_preference"
+            android:title="Hostel Notifications" />
+
+        <!--CheckBoxPreference
+            android:key="pref_hostel_Opal"
+            android:title="Opal"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Agate"
+            android:title="Agate"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Coral"
+            android:title="Coral"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Diamond"
+            android:title="Diamond"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Beryl"
+            android:title="Beryl"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Jade"
+            android:title="Jade"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Garnet A"
+            android:title="Garnet A"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Garnet B"
+            android:title="Garnet B"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Garnet C"
+            android:title="Garnet C"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Zircon A"
+            android:title="Zircon A"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Zircon B"
+            android:title="Zircon B"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Amber A"
+            android:title="Amber A"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+        android:key="pref_hostel_Amber B"
+        android:title="Amber B"
+        android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Emerald"
+            android:title="Emerald"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Lapis"
+            android:title="Lapis"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Pearl"
+            android:title="Pearl"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Ruby"
+            android:title="Ruby"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Sapphire"
+            android:title="Sapphire"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Topaz"
+            android:title="Topaz"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Aquamarine A"
+            android:title="Aquamarine A"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Aquamarine B"
+            android:title="Aquamarine B"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_hostel_Jasper"
+            android:title="Jasper"
+            android:defaultValue="false"/-->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
