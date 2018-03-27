@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -83,8 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MainActivity","Entered onCreate()");
 
-        /*Intent mServiceIntent = new Intent(this,BusNotificationService.class);
-        this.startService(mServiceIntent);*/
+
 
 
 
@@ -224,6 +224,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 bus.putLastUpdated(c.getString("lastUpdatedAt"));
                                 Log.d("MainActivity","Entered fetchBuses()-lastUpdateTime "+bus.getLastUpdated() +" "+bus.getLatitude()+", "+bus.getLongitude());
                                 mBuses.add(bus);
+
+                                SharedPreferences sharedPref = MapsActivity.this.getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                if(sharedPref.contains(c.getString("vehicleId"))==false){
+                                    editor.putString(c.getString("vehicleId"), "Empty");
+                                }
+                                editor.apply();
                             }
                             onMapRefresh();
                             pDialog.dismiss();

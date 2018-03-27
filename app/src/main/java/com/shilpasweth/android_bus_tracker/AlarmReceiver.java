@@ -98,7 +98,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         locationManager.removeUpdates(locationListener);
 
-        String hostel_name=new String();
+        String hostel_name=new String("Empty");
 
 
         for (int i = 0; i < mBuses.size(); i++) {
@@ -134,13 +134,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 for(int j=0;j<obj.length();j++){
                     //Toast.makeText(context, "JSON "+obj.getJSONObject(j).get("name"), Toast.LENGTH_SHORT).show();
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-// then you use
-                    String hostel_select=prefs.getString("hostel_preference", null);
-                    //Toast.makeText(context, "Preference: "+hostel_select, Toast.LENGTH_SHORT).show();
-                    if(hostel_select.compareToIgnoreCase((String)obj.getJSONObject(j).get("name"))!=0){
-                        continue;
-                    }
+
 
                     double currdist;
 
@@ -148,7 +142,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     currdist=distance(buscoord.latitude,buscoord.longitude,hostelcoord.latitude,hostelcoord.longitude);
                     if(currdist<0.1&&(currdist<mindist||min_ind==-1)){
-                    //if((currdist<mindist||min_ind==-1)){
                         mindist=currdist;
                         min_ind=j;
                         hostel_condition=true;
@@ -169,14 +162,43 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
             }
 
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            if (hostel_name.compareToIgnoreCase(sharedPref.getString(mBuses.get(i).getVehicleId(),null))==0){
+                hostel_condition=false;
+            }
+            else{
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(mBuses.get(i).getVehicleId(), hostel_name);
+
+                editor.apply();
+            }
 
 
             if(hostel_condition){
                 Toast.makeText(context, "Hostel Name: "+hostel_name, Toast.LENGTH_SHORT).show();
-                createHostelNotification(context,lastKnownLocation,hostel_name,i);
+
+
+
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String hostel_select=prefs.getString("hostel_preference", null);
+                //Toast.makeText(context, "Preference: "+hostel_select, Toast.LENGTH_SHORT).show();
+                if(hostel_select.compareToIgnoreCase(hostel_name)==0){
+                    createHostelNotification(context,lastKnownLocation,hostel_name,i);
+                }
+
             }
             else if(near_condition){
-                createNearNotification(context,lastKnownLocation,i);
+                hostel_name="You";
+                if (hostel_name.compareToIgnoreCase(sharedPref.getString(mBuses.get(i).getVehicleId(),null))!=0){
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(mBuses.get(i).getVehicleId(), hostel_name);
+
+                    editor.apply();
+                    createNearNotification(context,lastKnownLocation,i);
+                }
+
             }
 
         }
