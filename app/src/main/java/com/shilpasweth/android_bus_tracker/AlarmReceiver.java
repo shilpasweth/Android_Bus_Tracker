@@ -141,7 +141,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     LatLng hostelcoord = new LatLng((double)obj.getJSONObject(j).get("latitude"), (double)obj.getJSONObject(j).get("longitude"));
 
                     currdist=distance(buscoord.latitude,buscoord.longitude,hostelcoord.latitude,hostelcoord.longitude);
-                    if(currdist<0.1&&(currdist<mindist||min_ind==-1)){
+                    if(currdist<0.2&&(currdist<mindist||min_ind==-1)){
                         mindist=currdist;
                         min_ind=j;
                         hostel_condition=true;
@@ -157,21 +157,26 @@ public class AlarmReceiver extends BroadcastReceiver {
             if(isLocationEnabled(context)){
                 userdist=distance(buscoord.latitude,buscoord.longitude,lastKnownLocation.getLatitude(),lastKnownLocation.getLatitude());
 
-                if(userdist<0.1){
+                if(userdist<0.2){
                     near_condition=true;
                 }
             }
 
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences sharedPref = context.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
+            Log.e("My App", "Check:" +sharedPref.getString(mBuses.get(i).getVehicleId(),null));
             if (hostel_name.compareToIgnoreCase(sharedPref.getString(mBuses.get(i).getVehicleId(),null))==0){
                 hostel_condition=false;
             }
             else{
-
+                if(sharedPref.getString(mBuses.get(i).getVehicleId(),null).compareToIgnoreCase("Empty")!=0
+                        ||sharedPref.getString(mBuses.get(i).getVehicleId(),null).compareToIgnoreCase("You")!=0){
+                    createHostelNotification(context,lastKnownLocation,sharedPref.getString(mBuses.get(i).getVehicleId(),null),i);
+                }
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(mBuses.get(i).getVehicleId(), hostel_name);
 
                 editor.apply();
+                editor.commit();
             }
 
 
@@ -267,6 +272,36 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.notify(Integer.parseInt(mBuses.get(bus_index).getVehicleId()), mBuilder.build());
         }
     }
+
+    public void createLeftNotification(Context context,Location location,String hostel,int bus_index){
+        String CHANNEL_ID="C1";
+
+        Date currentTime = Calendar.getInstance().getTime();
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.bus_marker)
+                .setContentTitle("NITT Bus Notification")
+                .setContentText("Bus has left"+" "+hostel)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel, but only on API 26+ because
+            // the NotificationChannel class is new and not in the support library
+            CharSequence name = "NITT Bus Tracker";
+            String description = "Channel for bus tracker notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+
+// notificationId is a unique int for each notification that you must define
+            notificationManager.notify(Integer.parseInt(mBuses.get(bus_index).getVehicleId()), mBuilder.build());
+        }
+    }
+
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;

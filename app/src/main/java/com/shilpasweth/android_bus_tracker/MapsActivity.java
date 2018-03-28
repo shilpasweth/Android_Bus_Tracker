@@ -99,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        startAlarm();
+
 
         gen_txt=(TextView)findViewById(R.id.general_text);
         boy_txt=(TextView)findViewById(R.id.boy_text);
@@ -225,12 +225,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Log.d("MainActivity","Entered fetchBuses()-lastUpdateTime "+bus.getLastUpdated() +" "+bus.getLatitude()+", "+bus.getLongitude());
                                 mBuses.add(bus);
 
-                                SharedPreferences sharedPref = MapsActivity.this.getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences sharedPref = MapsActivity.this.getSharedPreferences("myPrefs",Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 if(sharedPref.contains(c.getString("vehicleId"))==false){
                                     editor.putString(c.getString("vehicleId"), "Empty");
+                                    Log.e("My App", "Input Check:" +sharedPref.getString(mBuses.get(i).getVehicleId(),null));
                                 }
                                 editor.apply();
+                                editor.commit();
                             }
                             onMapRefresh();
                             pDialog.dismiss();
@@ -319,7 +321,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(10.762, 78.816);
         //Toast.makeText(MapsActivity.this,"Out Loop",Toast.LENGTH_LONG).show();
         //mMap.setMinZoomPreference(15.0f);
+        mMap.setMinZoomPreference(16.0f);//upper bound
+        mMap.setMaxZoomPreference(18.0f);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,17.0f));
+        startAlarm();
         Log.d("MainActivity","Exited onMapReady()");
     }
 }
